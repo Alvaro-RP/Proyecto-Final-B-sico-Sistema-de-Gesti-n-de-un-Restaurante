@@ -18,7 +18,6 @@ def mesas(num_mesa, clientes, cuenta, pedidos):
 
     mesas_list = []
     mesas_list.append(mesas)
-    variable = "borrar"
 
 
 # Funcion
