@@ -1,7 +1,11 @@
 # Importaciones
 import os
 from lectura_escritura_json import cargar_restaurante
-from gestion_restaurante import cargar_peticiones, tomar_pedido
+from gestion_restaurante import (
+    cargar_peticiones,
+    tomar_pedido,
+    cobrar_mesa
+)
 
 
 # Funciones definidas
@@ -98,10 +102,43 @@ def main():
                     except ValueError:
                         print("Introduce un número de mesa válido.")
 
+        elif opcion == "4":
+            if restaurante is None:
+                print("Primero debes cargar un restaurante.")
+            else:
+                servidas = []
+
+                for mesa in restaurante["mesas"]:
+                    if mesa["atendida"]:
+                        servidas.append(mesa)
+                        print(
+                            "Mesa:", mesa["num_mesa"],
+                            "Clientes:", mesa["clientes"]
+                        )
+
+                if len(servidas) == 0:
+                    print("No hay mesas con pedido para cobrar.")
+                else:
+                    try:
+                        numero = int(input("Número de mesa a cobrar: "))
+                        mesa_elegida = None
+
+                        for mesa in servidas:
+                            if mesa["num_mesa"] == numero:
+                                mesa_elegida = mesa
+
+                        if mesa_elegida is None:
+                            print("Mesa no válida.")
+                        else:
+                            cobrar_mesa(restaurante, numero)
+
+                    except ValueError:
+                        print("Introduce un número de mesa válido.")
+
         elif opcion == "7":
             print("Programa cerrado.")
 
-        elif opcion in ("4", "5", "6"):
+        elif opcion in ("5", "6"):
             if restaurante is None:
                 print("Primero debes cargar un restaurante.")
             else:
