@@ -1,5 +1,3 @@
-## Hacer un random para cuantos clientes / meas van en un día (al final del proyecto si da timepo)
-
 # Importaciones
 from lectura_escritura_json import cargar_restaurante, cargar_grupos
 
@@ -44,10 +42,30 @@ def cargar_peticiones(restaurante, ruta):
     for grupo in grupos:
         añadir_mesa(restaurante, grupo["clientes"])
 
+def tomar_pedido(mesa, menu):
+    pedidos = []
+
+    for nCliente in range(1, mesa["clientes"] + 1):
+        print(f"Cliente {nCliente} de la mesa {mesa['num_mesa']}")
+        plato = ""
+
+        while plato != "Eso es todo":
+            plato = input(
+                "¿Qué plato desea? Escriba 'Eso es todo' para terminar: "
+            )
+
+            if plato in menu:
+                pedidos.append(plato)
+            elif plato != "Eso es todo":
+                print("El plato no está en el menú.")
+
+    mesa["pedidos"] = pedidos
+    mesa["atendida"] = True
+
 
 # Funcion
 
 # Punto de entrada
 
-if __name__ == '__main__':
-    print
+# if __name__ == '__main__':
+   
