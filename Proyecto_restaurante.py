@@ -62,6 +62,34 @@ def tomar_pedido(mesa, menu):
     mesa["pedidos"] = pedidos
     mesa["atendida"] = True
 
+def calcular_cuenta(mesa, menu):
+    precio_total = 0
+
+    for plato in mesa["pedidos"]:
+        precio_total += menu[plato]
+
+    mesa["cuenta"] = precio_total
+
+    return precio_total
+
+def cobrar_mesa(restaurante, num_mesa):
+    for mesa in restaurante["mesas"]:
+        if mesa["num_mesa"] == num_mesa:
+            if not mesa["atendida"]:
+                print("Esta mesa todavía no tiene pedido.")
+                return
+
+            total = calcular_cuenta(mesa, restaurante["menu"])
+
+            restaurante["ganancias"] += total
+            restaurante["ocupacion"] -= mesa["clientes"]
+            restaurante["mesas"].remove(mesa)
+
+            print(f"Mesa {num_mesa} cobrada: {total:.2f} €")
+            print("La mesa ha quedado libre.")
+            return
+
+    print("No existe una mesa con ese número.")
 
 # Funcion
 
