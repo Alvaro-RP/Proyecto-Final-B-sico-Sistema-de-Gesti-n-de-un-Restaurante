@@ -1,4 +1,8 @@
 # Importaciones
+import os
+from lectura_escritura_json import cargar_restaurante
+from gestion_restaurante import cargar_peticiones
+
 
 # Funciones definidas
 def mostrar_menu():
@@ -17,15 +21,56 @@ def mostrar_menu():
 
 def main():
     restaurante = None
+    ruta_restaurante = None
     opcion = ""
 
     while opcion != "7":
         opcion = mostrar_menu()
 
-        if opcion == "7":
+        if opcion == "1":
+            try:
+                archivos = []
+
+                for nombre in os.listdir("restaurante"):
+                    if nombre.endswith(".json"):
+                        archivos.append(nombre)
+
+                for numero, nombre in enumerate(archivos, 1):
+                    print(numero, nombre)
+
+                seleccion = int(input("Elige un archivo: "))
+
+                if 1 <= seleccion <= len(archivos):
+                    ruta = "restaurante/" + archivos[seleccion - 1]
+                    restaurante = cargar_restaurante(ruta)
+                    ruta_restaurante = ruta
+                    print("Restaurante cargado:", restaurante["nombre"])
+                else:
+                    print("Selección no válida.")
+
+            except (OSError, ValueError, TypeError, KeyError):
+                print("No se pudo cargar el restaurante.")
+
+        elif opcion == "2":
+            if restaurante is None:
+                print("Primero debes cargar un restaurante.")
+            else:
+                ruta = input("Ruta del JSON de grupos: ")
+
+                try:
+                    cargar_peticiones(restaurante, ruta)
+                except (OSError, ValueError, TypeError, KeyError):
+                    print("No se pudieron cargar los grupos.")
+
+        elif opcion == "7":
             print("Programa cerrado.")
-        elif opcion in ("1", "2", "3", "4", "5", "6"):
-            print("Opción pendiente de conectar.") # MODIFICAR
+
+        elif opcion in ("3", "4", "5", "6"):
+            if restaurante is None:
+                print("Primero debes cargar un restaurante.")
+            else:
+                print("Opción pendiente de conectar.")
+
         else:
             print("Opción no válida.")
 
