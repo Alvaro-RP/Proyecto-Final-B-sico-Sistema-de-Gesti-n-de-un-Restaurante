@@ -28,5 +28,17 @@ def cargar_grupos(ruta):
             raise ValueError(
                 "Cada grupo debe tener un número entero positivo de clientes."
             )
-
     return grupos
+
+def guardar_restaurante(ruta, restaurante):
+    datos = {
+        "nombre": restaurante["nombre"],
+        "aforo": restaurante["aforo"],
+        "max_mesas": restaurante["max_mesas"],
+        "menu": restaurante["menu"]
+    }
+
+    with open(ruta, "w", encoding="utf-8") as archivo:
+        json.dump(datos, archivo, ensure_ascii=False, indent=4)
+
+    
