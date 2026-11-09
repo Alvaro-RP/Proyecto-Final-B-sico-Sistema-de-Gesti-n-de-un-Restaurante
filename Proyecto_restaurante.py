@@ -4,8 +4,12 @@ from lectura_escritura_json import cargar_restaurante
 from gestion_restaurante import (
     cargar_peticiones,
     tomar_pedido,
-    cobrar_mesa
+    cobrar_mesa,
+    ampliar_menu,
+    consultar_estado
 )
+
+
 
 
 # Funciones definidas
@@ -135,14 +139,23 @@ def main():
                     except ValueError:
                         print("Introduce un número de mesa válido.")
 
-        elif opcion == "7":
-            print("Programa cerrado.")
-
-        elif opcion in ("5", "6"):
+        elif opcion == "5":
             if restaurante is None:
                 print("Primero debes cargar un restaurante.")
             else:
-                print("Opción pendiente de conectar.")
+                try:
+                    ampliar_menu(restaurante, ruta_restaurante)
+                except OSError:
+                    print("No se pudo guardar el menú.")
+
+        elif opcion == "6":
+            if restaurante is None:
+                print("Primero debes cargar un restaurante.")
+            else:
+                consultar_estado(restaurante)
+
+        elif opcion == "7":
+            print("Programa cerrado.")
 
         else:
             print("Opción no válida.")
