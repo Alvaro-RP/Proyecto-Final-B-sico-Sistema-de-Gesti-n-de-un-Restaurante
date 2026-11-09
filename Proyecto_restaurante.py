@@ -6,7 +6,8 @@ from gestion_restaurante import (
     tomar_pedido,
     cobrar_mesa,
     ampliar_menu,
-    consultar_estado
+    consultar_estado,
+    dividir_cuenta
 )
 
 
@@ -22,6 +23,7 @@ def mostrar_menu():
     print("5. Ampliar el menú")
     print("6. Consultar estado")
     print("7. Salir")
+    print("8. Dividir la cuenta")
 
     opcion = input("Elige una opción: ")
 
@@ -153,6 +155,29 @@ def main():
                 print("Primero debes cargar un restaurante.")
             else:
                 consultar_estado(restaurante)
+
+        elif opcion == "8":
+            if restaurante is None:
+                print("Primero debes cargar un restaurante.")
+            else:
+                for mesa in restaurante["mesas"]:
+                    if mesa["atendida"]:
+                        print("Mesa:", mesa["num_mesa"])
+
+                try:
+                    numero = int(input("Número de mesa: "))
+                    encontrada = False
+
+                    for mesa in restaurante["mesas"]:
+                        if mesa["num_mesa"] == numero and mesa["atendida"]:
+                            dividir_cuenta(mesa, restaurante["menu"])
+                            encontrada = True
+
+                    if not encontrada:
+                        print("No hay una mesa con pedido con ese número.")
+
+                except ValueError:
+                    print("Introduce un número de mesa válido.")
 
         elif opcion == "7":
             print("Programa cerrado.")
