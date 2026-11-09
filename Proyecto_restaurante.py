@@ -1,159 +1,37 @@
 # Importaciones
-from lectura_escritura_json import (
-    cargar_restaurante,
-    cargar_grupos,
-    guardar_restaurante
-)
 
 # Funciones definidas
-def añadir_mesa(restaurante, clientes):
-    if type(clientes) is not int or clientes <= 0:
-        print("[ERROR] El número de clientes debe ser un entero positivo.")
-        return
+def mostrar_menu():
+    print("\n--- GESTIÓN DEL RESTAURANTE ---")
+    print("1. Cargar restaurante")
+    print("2. Cargar nuevas peticiones de grupos")
+    print("3. Tomar un pedido")
+    print("4. Cobrar y liberar una mesa")
+    print("5. Ampliar el menú")
+    print("6. Consultar estado")
+    print("7. Salir")
 
-    if restaurante["ocupacion"] + clientes > restaurante["aforo"]:
-        print("[ERROR] No queda espacio para nuevos clientes.")
-        return
+    opcion = input("Elige una opción: ")
 
-    if len(restaurante["mesas"]) >= restaurante["max_mesas"]:
-        print("[ERROR] Se ha alcanzado el límite de mesas.")
-        return
+    return opcion
 
-    num_mesa = 1
-    numeros_ocupados = [
-        mesa["num_mesa"] for mesa in restaurante["mesas"]
-    ]
+def main():
+    restaurante = None
+    opcion = ""
 
-    while num_mesa in numeros_ocupados:
-        num_mesa += 1
+    while opcion != "7":
+        opcion = mostrar_menu()
 
-    mesa = {
-        "num_mesa": num_mesa,
-        "clientes": clientes,
-        "cuenta": 0,
-        "atendida": False,
-        "pedidos": []
-    }
-
-    restaurante["mesas"].append(mesa)
-    restaurante["ocupacion"] += clientes
-
-    print(f"Mesa {num_mesa} añadida para {clientes} clientes.")
-
-def cargar_peticiones(restaurante, ruta):
-    grupos = cargar_grupos(ruta)
-
-    for grupo in grupos:
-        añadir_mesa(restaurante, grupo["clientes"])
-
-def tomar_pedido(mesa, menu):
-    pedidos = []
-
-    for nCliente in range(1, mesa["clientes"] + 1):
-        print(f"Cliente {nCliente} de la mesa {mesa['num_mesa']}")
-        plato = ""
-
-        while plato != "Eso es todo":
-            plato = input(
-                "¿Qué plato desea? Escriba 'Eso es todo' para terminar: "
-            )
-
-            if plato in menu:
-                pedidos.append(plato)
-            elif plato != "Eso es todo":
-                print("El plato no está en el menú.")
-
-    mesa["pedidos"] = pedidos
-    mesa["atendida"] = True
-
-def calcular_cuenta(mesa, menu):
-    precio_total = 0
-
-    for plato in mesa["pedidos"]:
-        precio_total += menu[plato]
-
-    mesa["cuenta"] = precio_total
-
-    return precio_total
-
-def cobrar_mesa(restaurante, num_mesa):
-    for mesa in restaurante["mesas"]:
-        if mesa["num_mesa"] == num_mesa:
-            if not mesa["atendida"]:
-                print("Esta mesa todavía no tiene pedido.")
-                return
-
-            total = calcular_cuenta(mesa, restaurante["menu"])
-
-            restaurante["ganancias"] += total
-            restaurante["ocupacion"] -= mesa["clientes"]
-            restaurante["mesas"].remove(mesa)
-
-            print(f"Mesa {num_mesa} cobrada: {total:.2f} €")
-            print("La mesa ha quedado libre.")
-            return
-
-    print("No existe una mesa con ese número.")
-
-def ampliar_menu(restaurante, ruta):
-    nombre = input("Nombre del plato: ")
-
-    if nombre in restaurante["menu"]:
-        print("El plato ya existe. Se actualizará su precio.")
-
-    precio_valido = False
-
-    while not precio_valido:
-        try:
-            precio = float(input("Precio del plato: "))
-
-            if 0 < precio < float("inf"):
-                precio_valido = True
-            else:
-                print("Introduce un precio positivo")
-
-        except ValueError:
-            print("Introduce un número válido.")
-
-    restaurante["menu"][nombre] = precio
-    guardar_restaurante(ruta, restaurante)
-
-    print("El menú se ha actualizado y guardado.")
-
-def consultar_estado(restaurante):
-    print("\n--- ESTADO DEL RESTAURANTE ---")
-    print("Nombre:", restaurante["nombre"])
-    print("Capacidad:", restaurante["aforo"])
-    print("Máximo de mesas:", restaurante["max_mesas"])
-    print("Ocupación actual:", restaurante["ocupacion"])
-
-    print("\n--- MESAS ACTIVAS ---")
-
-    if not restaurante["mesas"]:
-        print("No hay mesas ocupadas.")
-
-    for mesa in restaurante["mesas"]:
-        print("\nMesa:", mesa["num_mesa"])
-        print("Clientes:", mesa["clientes"])
-
-        if mesa["atendida"]:
-            print("Estado: con pedido")
+        if opcion == "7":
+            print("Programa cerrado.")
+        elif opcion in ("1", "2", "3", "4", "5", "6"):
+            print("Opción pendiente de conectar.") # MODIFICAR
         else:
-            print("Estado: pendiente de pedido")
+            print("Opción no válida.")
 
-        print("Pedidos:", mesa["pedidos"])
-        print("Cuenta:", mesa["cuenta"])
 
-    print("\n--- MENÚ ---")
 
-    for plato, precio in restaurante["menu"].items():
-        print(f"{plato}: {precio:.2f} €")
-
-    print(f"\nGanancias de la noche: {restaurante['ganancias']:.2f} €")
-
-# Funcion
-
-# Punto de entrada
-
-# if __name__ == '__main__':
+# PuntO de entrada
+if __name__ == '__main__':
+    main()
    
