@@ -1,5 +1,9 @@
 # Importaciones
-from lectura_escritura_json import cargar_restaurante, cargar_grupos
+from lectura_escritura_json import (
+    cargar_restaurante,
+    cargar_grupos,
+    guardar_restaurante
+)
 
 # Funciones definidas
 def añadir_mesa(restaurante, clientes):
@@ -90,6 +94,31 @@ def cobrar_mesa(restaurante, num_mesa):
             return
 
     print("No existe una mesa con ese número.")
+
+def ampliar_menu(restaurante, ruta):
+    nombre = input("Nombre del plato: ")
+
+    if nombre in restaurante["menu"]:
+        print("El plato ya existe. Se actualizará su precio.")
+
+    precio_valido = False
+
+    while not precio_valido:
+        try:
+            precio = float(input("Precio del plato: "))
+
+            if 0 < precio < float("inf"):
+                precio_valido = True
+            else:
+                print("Introduce un precio positivo")
+
+        except ValueError:
+            print("Introduce un número válido.")
+
+    restaurante["menu"][nombre] = precio
+    guardar_restaurante(ruta, restaurante)
+
+    print("El menú se ha actualizado y guardado.")
 
 # Funcion
 
