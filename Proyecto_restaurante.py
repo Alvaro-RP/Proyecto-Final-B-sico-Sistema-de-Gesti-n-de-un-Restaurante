@@ -120,6 +120,37 @@ def ampliar_menu(restaurante, ruta):
 
     print("El menú se ha actualizado y guardado.")
 
+def consultar_estado(restaurante):
+    print("\n--- ESTADO DEL RESTAURANTE ---")
+    print("Nombre:", restaurante["nombre"])
+    print("Capacidad:", restaurante["aforo"])
+    print("Máximo de mesas:", restaurante["max_mesas"])
+    print("Ocupación actual:", restaurante["ocupacion"])
+
+    print("\n--- MESAS ACTIVAS ---")
+
+    if not restaurante["mesas"]:
+        print("No hay mesas ocupadas.")
+
+    for mesa in restaurante["mesas"]:
+        print("\nMesa:", mesa["num_mesa"])
+        print("Clientes:", mesa["clientes"])
+
+        if mesa["atendida"]:
+            print("Estado: con pedido")
+        else:
+            print("Estado: pendiente de pedido")
+
+        print("Pedidos:", mesa["pedidos"])
+        print("Cuenta:", mesa["cuenta"])
+
+    print("\n--- MENÚ ---")
+
+    for plato, precio in restaurante["menu"].items():
+        print(f"{plato}: {precio:.2f} €")
+
+    print(f"\nGanancias de la noche: {restaurante['ganancias']:.2f} €")
+
 # Funcion
 
 # Punto de entrada
