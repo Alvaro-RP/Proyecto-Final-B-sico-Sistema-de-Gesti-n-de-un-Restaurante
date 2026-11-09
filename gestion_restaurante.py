@@ -76,6 +76,24 @@ def calcular_cuenta(mesa, menu):
 
     return precio_total
 
+def dividir_cuenta(mesa, menu):
+    total = calcular_cuenta(mesa, menu)
+    total_centimos = round(total * 100)
+
+    pago_base = total_centimos // mesa["clientes"]
+    centimos_restantes = total_centimos % mesa["clientes"]
+
+    print(f"Cuenta total: {total:.2f} €")
+    print("Número de clientes:", mesa["clientes"])
+
+    for cliente in range(1, mesa["clientes"] + 1):
+        pago = pago_base
+
+        if cliente <= centimos_restantes:
+            pago += 1
+
+        print(f"Cliente {cliente}: {pago / 100:.2f} €")
+
 def cobrar_mesa(restaurante, num_mesa):
     for mesa in restaurante["mesas"]:
         if mesa["num_mesa"] == num_mesa:
