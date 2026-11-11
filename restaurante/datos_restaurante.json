@@ -1,10 +1,10 @@
 {
     "nombre": "Alto Bardero",
-    "aforo": 50,
-    "max_mesas": 5,
+    "capacidad": 50,
+    "mesas_max": 5,
     "menu": {
         "croquetas": 8,
         "tortilla": 5,
         "gambas": 12
-        }
     }
+}
