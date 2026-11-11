@@ -1,31 +1,20 @@
 import json
 
 
-def cargar_restaurante(ruta):
+def leer_json(ruta):
+    
     with open(ruta, "r", encoding="utf-8") as archivo:
-        restaurante = json.load(archivo)
+        datos = json.load(archivo)
+    return datos
 
-    restaurante["mesas"] = []
-    restaurante["ocupacion"] = 0
-    restaurante["ganancias"] = 0
-
-    return restaurante
-
-def cargar_grupos(ruta):
-    with open(ruta, "r", encoding="utf-8") as archivo:
-        grupos = json.load(archivo)
-
-    return grupos
 
 def guardar_restaurante(ruta, restaurante):
+
     datos = {
         "nombre": restaurante["nombre"],
-        "aforo": restaurante["aforo"],
-        "max_mesas": restaurante["max_mesas"],
+        "capacidad": restaurante["capacidad"],
+        "mesas_max": restaurante["mesas_max"],
         "menu": restaurante["menu"]
     }
-
     with open(ruta, "w", encoding="utf-8") as archivo:
         json.dump(datos, archivo, ensure_ascii=False, indent=4)
-
-    
