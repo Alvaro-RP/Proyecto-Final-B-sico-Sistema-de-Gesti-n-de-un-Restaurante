@@ -23,7 +23,7 @@ def mostrar_menu():
 
 
 def elegir_mesa(restaurante, atendida):
-    # Enseña solo las mesas con ese estado y devuelve la que elija el usuario
+    
     disponibles = []
     for mesa in restaurante["mesas"]:
         if mesa["atendida"] == atendida:
@@ -81,7 +81,6 @@ def main():
         elif opcion not in ["2", "3", "4", "5", "6"]:
             print("Opción no válida.")
 
-        # A partir de aquí todas las opciones necesitan un restaurante cargado
         elif restaurante is None:
             print("Primero debes cargar un restaurante.")
 
