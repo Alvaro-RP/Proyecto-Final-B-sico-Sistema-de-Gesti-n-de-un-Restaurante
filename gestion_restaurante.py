@@ -14,7 +14,6 @@ def añadir_mesa(restaurante, clientes):
         print("[ERROR] Se ha alcanzado el límite de mesas.")
         return
 
-    # Como las mesas se liberan, buscamos el primer número que esté libre
     numeros_ocupados = []
     for mesa in restaurante["mesas"]:
         numeros_ocupados.append(mesa["num_mesa"])
@@ -68,7 +67,6 @@ def calcular_cuenta(mesa, menu):
 
 def dividir_cuenta(total, clientes):
     por_persona = round(total / clientes, 2)
-    # El último cliente paga lo que falte, para que no se pierdan céntimos al redondear
     ultimo = round(total - por_persona * (clientes - 1), 2)
 
     for n_cliente in range(1, clientes):
